@@ -14,6 +14,7 @@
 		7CF52ADC1D40743400DC8DE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF52ADB1D40743400DC8DE8 /* Assets.xcassets */; };
 		7CF52ADF1D40743400DC8DE8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CF52ADD1D40743400DC8DE8 /* LaunchScreen.storyboard */; };
 		7CF52AEA1D40743400DC8DE8 /* SimpleTextViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF52AE91D40743400DC8DE8 /* SimpleTextViewDemoUITests.m */; };
+		7CF52AF61D4079DF00DC8DE8 /* NGHTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF52AF51D4079DF00DC8DE8 /* NGHTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		7CF52AE51D40743400DC8DE8 /* SimpleTextViewDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleTextViewDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF52AE91D40743400DC8DE8 /* SimpleTextViewDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleTextViewDemoUITests.m; sourceTree = "<group>"; };
 		7CF52AEB1D40743400DC8DE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CF52AF41D4079DF00DC8DE8 /* NGHTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGHTextView.h; sourceTree = "<group>"; };
+		7CF52AF51D4079DF00DC8DE8 /* NGHTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGHTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				7CF52AD31D40743400DC8DE8 /* AppDelegate.m */,
 				7CF52AD51D40743400DC8DE8 /* ViewController.h */,
 				7CF52AD61D40743400DC8DE8 /* ViewController.m */,
+				7CF52AF41D4079DF00DC8DE8 /* NGHTextView.h */,
+				7CF52AF51D4079DF00DC8DE8 /* NGHTextView.m */,
 				7CF52AD81D40743400DC8DE8 /* Main.storyboard */,
 				7CF52ADB1D40743400DC8DE8 /* Assets.xcassets */,
 				7CF52ADD1D40743400DC8DE8 /* LaunchScreen.storyboard */,
@@ -212,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CF52AD71D40743400DC8DE8 /* ViewController.m in Sources */,
+				7CF52AF61D4079DF00DC8DE8 /* NGHTextView.m in Sources */,
 				7CF52AD41D40743400DC8DE8 /* AppDelegate.m in Sources */,
 				7CF52AD11D40743400DC8DE8 /* main.m in Sources */,
 			);
