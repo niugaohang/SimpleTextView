@@ -13,10 +13,12 @@ typedef void (^myTextBlock)(NSString *commentText);
 
 @interface NGHTextView : UIView
 
+@property(nonatomic, assign)NSString *placeholderStr;
 
 -(id)initWithblock:(myTextBlock)comeBlock;
-
+//展示
 -(void)showShareView;
-
+//移除
+-(void)removeSelfView;
 
 @end

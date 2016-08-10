@@ -14,7 +14,8 @@
 
 #define RGB(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1.0]
 
-
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+#define UITF(float) [UIFont systemFontOfSize:float]
 
 #import "NGHTextView.h"
 
@@ -23,7 +24,10 @@
     UIView                *_commentBgView;
     UIView                *_commentView;
     UITextView            *_commentTextView;//评论的文本框
+    UILabel               *_placeholderLab;
 }
+
+
 @property (nonatomic,copy) myTextBlock textBlock;
 
 
@@ -43,7 +47,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
         
         _textBlock=comeBlock;
-        [[UIApplication sharedApplication].delegate.window.rootViewController.view addSubview:self];
+        [[UIApplication sharedApplication].keyWindow addSubview:self];
     }
     return self;
 }
@@ -57,6 +61,11 @@
     if (!_commentView) {
         [self initWithCommentArticle];
     }
+    if ([_commentTextView.text isEqualToString:@""])
+    {
+        _placeholderLab.text =self.placeholderStr;
+    }
+    
     [_commentTextView becomeFirstResponder];
 
 }
@@ -93,21 +102,26 @@
     _commentTextView.layer.borderWidth    = 2.0f;
     [_commentView addSubview:_commentTextView];
     
+//    提示信息
+    _placeholderLab=[[UILabel alloc]init];
+    _placeholderLab.frame =CGRectMake(15, 9, VIEW_WIDTH-50, 20);
+    _placeholderLab.text =self.placeholderStr;
+    _placeholderLab.font=UITF(14);
+    _placeholderLab.textColor=UIColorFromRGB(0x999999);
+    [_commentTextView addSubview:_placeholderLab];
+
+    
     [[UIApplication sharedApplication].keyWindow addSubview:_commentView];
     
 }
 -(void)backToTheNews:(UITapGestureRecognizer *)gesture
 {
     [UIView animateWithDuration:0.35 animations:^{
+        [_commentTextView resignFirstResponder];
         _commentBgView.alpha = 0;
         _commentView.frame = CGRectMake(0, VIEW_HEIGHT +120, VIEW_WIDTH, 120);
     } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-        [_commentBgView removeFromSuperview];
-        _commentBgView = nil;
-        [_commentView removeFromSuperview];
-        _commentView = nil;
-        
+       
     }];
 }
 
@@ -115,6 +129,13 @@
 //键盘显示的时候的处理
 - (void)keyboardWShown:(NSNotification*)aNotification
 {
+    if(![_commentTextView.text isEqualToString:@""])
+    {
+        [_placeholderLab setHidden:YES];
+    }
+    if([_commentTextView.text isEqualToString:@""]){
+        [_placeholderLab setHidden:NO];
+    }
     //获得键盘的大小
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -134,35 +155,48 @@
         _commentBgView.alpha = 0;
         _commentView.frame = CGRectMake(0, VIEW_HEIGHT +120, VIEW_WIDTH, 120);
     } completion:^(BOOL finished) {
-        if (![_commentTextView.text isEqualToString:@""])
-        {
-            [self removeFromSuperview];
-            [_commentBgView removeFromSuperview];
-            _commentBgView = nil;
-            [_commentView removeFromSuperview];
-            _commentView = nil;
-        }
-        else{
-            [self removeFromSuperview];
-            [_commentBgView removeFromSuperview];
-            _commentBgView = nil;
-            [_commentView removeFromSuperview];
-            _commentView = nil;
-        }
         
     }];
     
 }
 
+-(void)removeSelfView
+{
+    [_commentView removeFromSuperview];
+    [_commentBgView removeFromSuperview];
+    [self removeFromSuperview];
+}
+
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text
 {
+    if(![text isEqualToString:@""])
+    {
+        [_placeholderLab setHidden:YES];
+    }
+    if([text isEqualToString:@""]&&range.length==1&&range.location==0&&[text isEqualToString:@""]){
+        [_placeholderLab setHidden:NO];
+    }
     if ([text isEqualToString:@"\n"]) {
         [self sendMovieZNPoint];
         return NO;
     }
     return YES;
-    //
+
 }
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+    
+    if(![textView.text isEqualToString:@""])
+    {
+        [_placeholderLab setHidden:YES];
+    }
+    if([textView.text isEqualToString:@""]){
+        [_placeholderLab setHidden:NO];
+    }
+    
+}
+
+
 #pragma mark -发送
 -(void)sendMovieZNPoint
 {
@@ -175,6 +209,7 @@
         //                评论
         [_commentTextView resignFirstResponder];
         _textBlock(_commentTextView.text);
+        _commentTextView.text=nil;
 
     }
 }

@@ -11,12 +11,19 @@
 @interface ViewController ()
 {
     UILabel *_textLab;
+    NGHTextView           *_textView;
 }
 
 @end
 
 @implementation ViewController
-
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+//    当页面消失  要移除
+    [_textView removeSelfView];
+    _textView=nil;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -44,13 +51,18 @@
 
 -(void)textViewBtnClick
 {
-    NGHTextView *textView=[[NGHTextView alloc]initWithblock:^(NSString *commentText) {
+    if (!_textView)
+    {
+        _textView=[[NGHTextView alloc]initWithblock:^(NSString *commentText) {
+            
+            _textLab.text=commentText;
+            
+        }];
         
-        _textLab.text=commentText;
-
-    }];
+    }
+    _textView.placeholderStr=@"优质评论将会被优先展示";
     
-    [textView showShareView];
+    [_textView showShareView];
 }
 
 - (void)didReceiveMemoryWarning {
